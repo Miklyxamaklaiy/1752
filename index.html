@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Плечо помощи — демо (GitHub Pages)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.css">
+  <link rel="stylesheet" href="./assets/css/site.css">
+</head>
+<body>
+
+
+<header class="pp-header">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="d-flex align-items-center justify-content-between py-3 gap-3">
+      <button class="btn pp-burger" type="button" data-bs-toggle="offcanvas" data-bs-target="#ppMenu" aria-controls="ppMenu" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a class="pp-logo text-decoration-none" href="./index.html">
+        <span class="pp-logo-mark">PH</span>
+        <span class="pp-logo-text d-none d-sm-inline">лого</span>
+      </a>
+
+      
+            <nav class="d-none d-md-flex align-items-center gap-2 pp-topnav">
+              <a class="pp-navlink" href="#map">карта</a>
+              <a class="pp-navlink" href="#list">список</a>
+              <a class="pp-navlink" href="#volunteers">для волонтеров</a>
+              <a class="pp-navlink" href="#contacts">контакты</a>
+            </nav>
+        
+
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-sm btn-outline-light" href="./login.html">Вход</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="offcanvas offcanvas-start pp-offcanvas" tabindex="-1" id="ppMenu" aria-labelledby="ppMenuLabel">
+  <div class="offcanvas-header">
+    <div class="text-white fw-semibold" id="ppMenuLabel">Меню</div>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action pp-menuitem" href="./index.html">Главная</a>
+      <a class="list-group-item list-group-item-action pp-menuitem" href="./stories.html">Истории</a>
+      <a class="list-group-item list-group-item-action pp-menuitem" href="./articles.html">Статьи</a>
+      <a class="list-group-item list-group-item-action pp-menuitem" href="./about.html">О нас</a>
+    </div>
+    <div class="mt-4 small text-white-50">
+      Мониторинг волонтёрских организаций по России.
+    </div>
+  </div>
+</div>
+
+
+
+<main class="pp-main">
+
+<section class="pp-hero">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="row align-items-center g-4 py-5">
+      <div class="col-lg-12 text-center">
+        <h1 class="pp-title">Плечо помощи</h1>
+        <p class="pp-subtitle">Сайт‑мониторинг волонтёрских организаций, которые помогают по всей России. (текст заменишь)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-section" id="articles">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="d-flex align-items-end justify-content-between gap-3 mb-3">
+      <div>
+        <h2 class="pp-h2">Статьи</h2>
+        <div class="text-muted">Карусель из 11 материалов (заглушки).</div>
+      </div>
+      <a class="btn btn-sm btn-outline-secondary" href="./articles.html">Все статьи →</a>
+    </div>
+
+    <div class="pp-slider" id="ppSlider" aria-label="Карусель статей">
+      <a class="pp-slide" href="./articles/1.html"><div class="pp-slide-img"><img src="./assets/img/articles/a1.svg" alt="Статья 1"></div><div class="pp-slide-title">Статья 1</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/2.html"><div class="pp-slide-img"><img src="./assets/img/articles/a2.svg" alt="Статья 2"></div><div class="pp-slide-title">Статья 2</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/3.html"><div class="pp-slide-img"><img src="./assets/img/articles/a3.svg" alt="Статья 3"></div><div class="pp-slide-title">Статья 3</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/4.html"><div class="pp-slide-img"><img src="./assets/img/articles/a4.svg" alt="Статья 4"></div><div class="pp-slide-title">Статья 4</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/5.html"><div class="pp-slide-img"><img src="./assets/img/articles/a5.svg" alt="Статья 5"></div><div class="pp-slide-title">Статья 5</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/6.html"><div class="pp-slide-img"><img src="./assets/img/articles/a6.svg" alt="Статья 6"></div><div class="pp-slide-title">Статья 6</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/7.html"><div class="pp-slide-img"><img src="./assets/img/articles/a7.svg" alt="Статья 7"></div><div class="pp-slide-title">Статья 7</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/8.html"><div class="pp-slide-img"><img src="./assets/img/articles/a8.svg" alt="Статья 8"></div><div class="pp-slide-title">Статья 8</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/9.html"><div class="pp-slide-img"><img src="./assets/img/articles/a9.svg" alt="Статья 9"></div><div class="pp-slide-title">Статья 9</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/10.html"><div class="pp-slide-img"><img src="./assets/img/articles/a10.svg" alt="Статья 10"></div><div class="pp-slide-title">Статья 10</div><div class="pp-slide-sub">Открыть материал →</div></a><a class="pp-slide" href="./articles/11.html"><div class="pp-slide-img"><img src="./assets/img/articles/a11.svg" alt="Статья 11"></div><div class="pp-slide-title">Статья 11</div><div class="pp-slide-sub">Открыть материал →</div></a>
+    </div>
+
+    <div class="small text-muted mt-2">Автопрокрутка каждые 3.5 секунды. Стрелок нет.</div>
+  </div>
+</section>
+
+<section class="pp-section" id="list">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="d-flex align-items-end justify-content-between gap-3 mb-3">
+      <div>
+        <h2 class="pp-h2">Список и карта организаций</h2>
+        <div class="text-muted">Демо на GitHub Pages: данные берутся из JSON (1000+ организаций), избранное хранится в браузере.</div>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-sm btn-outline-secondary" href="./volunteer.html">Подать заявку организации</a>
+      </div>
+    </div>
+
+    <div class="pp-filters card border-0 shadow-sm mb-3">
+      <div class="card-body">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-5">
+            <input class="form-control" id="filterQ" placeholder="Поиск (название, адрес)..." />
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="filterCity">
+              <option value="">Город (все)</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="filterCategory">
+              <option value="">Категория (все)</option>
+            </select>
+          </div>
+          <div class="col-md-1 d-grid">
+            <button class="btn btn-primary" id="btnApply">OK</button>
+          </div>
+          <div class="col-12 mt-2">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="filterFav">
+              <label class="form-check-label" for="filterFav">Только избранное</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3" id="map">
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm pp-listcard">
+          <div class="card-header bg-white d-flex align-items-center justify-content-between">
+            <div class="fw-semibold">Организации</div>
+            <div class="small text-muted" id="orgCount">—</div>
+          </div>
+          <div class="card-body p-0">
+            <div class="pp-orglist" id="orgList">
+              <div class="p-3 text-muted">Загрузка…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-0">
+            <div id="mapBox" class="pp-map"></div>
+          </div>
+          <div class="card-footer bg-white small text-muted">
+            Карта: Leaflet + OpenStreetMap. Геокодер: leaflet-control-geocoder.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-section" id="volunteers">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="row g-3 align-items-stretch">
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm pp-volcard h-100">
+          <div class="card-body p-4 p-lg-5">
+            <h2 class="pp-h2 mb-2">Для волонтёров</h2>
+            <p class="text-muted mb-4">Если в нашем мониторинге нет вашей организации — отправьте заявку.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-primary btn-lg" href="./volunteer.html">Подать заявку</a>
+              <a class="btn btn-outline-secondary btn-lg" href="./about.html">О проекте</a>
+            </div>
+            <div class="small text-muted mt-4">В демо на GitHub Pages заявка отправляется через mailto (без сервера).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100 overflow-hidden">
+          <div class="pp-volphoto">
+            <img id="volPhoto" src="./assets/img/vol/v1.svg" alt="Волонтёры">
+          </div>
+          <div class="card-body">
+            <div class="fw-semibold">Волонтёры и сообщества</div>
+            <div class="text-muted small">Фото меняется автоматически (заглушки).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pp-section" id="contacts">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4 p-lg-5">
+        <h2 class="pp-h2 mb-2">Контакты</h2>
+        <div class="text-muted mb-3">Заглушка контактов — ты потом поменяешь.</div>
+        <div class="row g-3">
+          <div class="col-md-4"><div class="pp-contactbox"><div class="pp-contact-title">Почта</div><div>support@plecho.local</div></div></div>
+          <div class="col-md-4"><div class="pp-contactbox"><div class="pp-contact-title">Телефон</div><div>+7 (000) 000‑00‑00</div></div></div>
+          <div class="col-md-4"><div class="pp-contactbox"><div class="pp-contact-title">Соцсети</div><div class="text-muted">VK / OK / Mail</div></div></div>
+        </div>
+        <div class="mt-3"><a class="btn btn-outline-secondary" href="./contacts.html">Страница контактов →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<footer class="pp-footer">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 py-4">
+      <div class="small text-white-50">
+        <a class="link-light text-decoration-none" href="./privacy.html">Политика конфиденциальности</a>
+        <span class="ms-2">© 2026</span>
+      </div>
+
+      <button class="btn btn-sm btn-outline-light" type="button" id="ppToTop">Наверх ↑</button>
+
+      <div class="d-flex align-items-center gap-3">
+        <a class="pp-social" href="#" title="VK" aria-label="VK"><span class="pp-ic">VK</span></a>
+        <a class="pp-social" href="#" title="OK" aria-label="Одноклассники"><span class="pp-ic">OK</span></a>
+        <a class="pp-social" href="#" title="Mail" aria-label="Mail.ru"><span class="pp-ic">&#64;</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
+
+<script src="./assets/js/site.js"></script>
+<script src="./assets/js/slider.js"></script>
+<script src="./assets/js/home_static.js"></script>
+<script src="./assets/js/volunteer.js"></script>
+</body>
+</html>

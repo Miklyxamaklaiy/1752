@@ -1,0 +1,228 @@
+@{
+    ViewData["Title"] = "Плечо помощи";
+}
+
+@section Head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.css" />
+}
+
+<section class="pp-hero">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="row align-items-center g-4 py-5">
+            <div class="col-lg-7">
+                <h1 class="pp-title">Плечо помощи</h1>
+                <p class="pp-subtitle">
+                    Сайт‑мониторинг волонтёрских организаций, которые помогают ветеранам СВО и их семьям по России.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a class="btn btn-light btn-lg" href="#map">Открыть карту</a>
+                    <a class="btn btn-outline-light btn-lg" href="/Articles">Статьи</a>
+                </div>
+
+                <div class="mt-4 pp-hero-note">
+                    Подсказка: добавляй организации в избранное и включай фильтр “Только избранное”.
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="pp-hero-card">
+                    <div class="pp-hero-card-title">Быстрый вход в демо</div>
+                    <div class="small text-white-50 mb-3">Чтобы посмотреть роли и заявки</div>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-sm btn-outline-light" href="/Account/Login">Войти</a>
+                        <a class="btn btn-sm btn-outline-light" href="/Account/Register">Регистрация</a>
+                    </div>
+                    <div class="small text-white-50 mt-3">
+                        Admin: admin@admin.com / admin
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pp-section" id="articles">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="d-flex align-items-end justify-content-between gap-3 mb-3">
+            <div>
+                <h2 class="pp-h2">Статьи</h2>
+                <div class="text-muted">Карусель из 11 материалов (картинки и тексты — заглушки).</div>
+            </div>
+            <a class="btn btn-sm btn-outline-secondary" href="/Articles">Все статьи →</a>
+        </div>
+
+        <div class="pp-slider" id="ppSlider" aria-label="Карусель статей">
+            @for (var i = 1; i <= 11; i++)
+            {
+                <a class="pp-slide" href="/Articles/Details/@i">
+                    <div class="pp-slide-img">
+                        <img src="/img/articles/a@i.svg" alt="Статья @i" />
+                    </div>
+                    <div class="pp-slide-title">Статья @i</div>
+                    <div class="pp-slide-sub">Открыть материал →</div>
+                </a>
+            }
+        </div>
+
+        <div class="small text-muted mt-2">
+            Автопрокрутка каждые 3.5 секунды, стрелок нет (скролл/свайп руками работает).
+        </div>
+    </div>
+</section>
+
+<section class="pp-section" id="list">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="d-flex align-items-end justify-content-between gap-3 mb-3">
+            <div>
+                <h2 class="pp-h2">Список и карта организаций</h2>
+                <div class="text-muted">Данные приходят из БД (SQLite через EF Core). Парсер запускается из админки.</div>
+            </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-secondary" href="/Volunteer">Подать заявку организации</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-sm btn-outline-danger" href="/Admin">Админ‑панель</a>
+                }
+            </div>
+        </div>
+
+        <div class="pp-filters card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-5">
+                        <input class="form-control" id="filterQ" placeholder="Поиск (название, адрес)..." />
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="filterCity">
+                            <option value="">Город (все)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="filterCategory">
+                            <option value="">Категория (все)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 d-grid">
+                        <button class="btn btn-primary" id="btnApply">OK</button>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="filterFav">
+                            <label class="form-check-label" for="filterFav">
+                                Только избранное <span class="text-muted">(требуется вход)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm pp-listcard">
+                    <div class="card-header bg-white d-flex align-items-center justify-content-between">
+                        <div class="fw-semibold">Организации</div>
+                        <div class="small text-muted" id="orgCount">—</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="pp-orglist" id="orgList">
+                            <div class="p-3 text-muted">Загрузка…</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8" id="map">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div id="mapBox" class="pp-map"></div>
+                    </div>
+                    <div class="card-footer bg-white small text-muted">
+                        Карта: Leaflet + OpenStreetMap. Геокодер подключён через leaflet-control-geocoder.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pp-section" id="volunteers">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="row g-3 align-items-stretch">
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm pp-volcard h-100">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="pp-h2 mb-2">Для волонтёров</h2>
+                        <p class="text-muted mb-4">
+                            Если в нашем мониторинге нет вашей организации — отправьте заявку, и мы добавим вас в каталог.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a class="btn btn-primary btn-lg" href="/Volunteer">Подать заявку</a>
+                            <a class="btn btn-outline-secondary btn-lg" href="/About">О проекте</a>
+                        </div>
+                        <div class="small text-muted mt-4">
+                            Заявка сохраняется в базе и может отправляться на почту (SMTP настраивается в appsettings.json).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                    <div class="pp-volphoto">
+                        <img id="volPhoto" src="/img/vol/v1.svg" alt="Волонтёры" />
+                    </div>
+                    <div class="card-body">
+                        <div class="fw-semibold">Волонтёры и сообщества</div>
+                        <div class="text-muted small">Фотография меняется автоматически (заглушки).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pp-section" id="contacts">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-lg-5">
+                <h2 class="pp-h2 mb-2">Контакты</h2>
+                <div class="text-muted mb-3">Заглушка контактов — ты потом поменяешь.</div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="pp-contactbox">
+                            <div class="pp-contact-title">Почта</div>
+                            <div>support@plecho.local</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pp-contactbox">
+                            <div class="pp-contact-title">Телефон</div>
+                            <div>+7 (000) 000‑00‑00</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pp-contactbox">
+                            <div class="pp-contact-title">Соцсети</div>
+                            <div class="text-muted">VK / OK / Mail</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a class="btn btn-outline-secondary" href="/Contacts">Страница контактов →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
+    <script src="~/js/slider.js" asp-append-version="true"></script>
+    <script src="~/js/home.js" asp-append-version="true"></script>
+    <script src="~/js/volunteer.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "О нас";
+}
+<div class="container-fluid px-3 px-lg-4 py-5">
+    <h1 class="pp-h1">О проекте</h1>
+    <p class="text-muted">Заглушка. Ты потом поменяешь текст, цели, принципы, источники данных.</p>
+
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="fw-semibold">Что делает сайт</h5>
+                    <ul class="mb-0">
+                        <li>Показывает организации помощи на карте и в списке.</li>
+                        <li>Дает фильтры (город/категория/поиск/избранное).</li>
+                        <li>Поддерживает заявки на помощь (роль “Заявитель”).</li>
+                        <li>Позволяет волонтёрам брать заявки в работу (роль “Исполнитель”).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="fw-semibold">Безопасность</h5>
+                    <div class="text-muted small">
+                        Пароли хешируются PasswordHasher. Формы защищены CSRF. Доступ разграничен по ролям через [Authorize].
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

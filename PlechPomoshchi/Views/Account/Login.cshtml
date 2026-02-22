@@ -1,0 +1,43 @@
+@model LoginVm
+@{
+    ViewData["Title"] = "Вход";
+    var returnUrl = ViewBag.ReturnUrl as string;
+}
+<div class="container-fluid px-3 px-lg-4 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <h1 class="pp-h1 mb-3">Вход</h1>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form method="post" asp-route-returnUrl="@returnUrl">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" asp-for="Email" />
+                            <span class="text-danger small" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <input class="form-control" asp-for="Password" type="password" />
+                            <span class="text-danger small" asp-validation-for="Password"></span>
+                        </div>
+
+                        <div class="text-danger small">@Html.ValidationSummary(excludePropertyErrors: true)</div>
+
+                        <button class="btn btn-primary w-100" type="submit">Войти</button>
+                    </form>
+
+                    <div class="mt-3 small text-muted">
+                        Нет аккаунта? <a href="/Account/Register">Регистрация</a>
+                    </div>
+
+                    <div class="mt-3 small text-muted">
+                        Демо: admin@admin.com / admin
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

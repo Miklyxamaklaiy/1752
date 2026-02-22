@@ -1,0 +1,139 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Anti
+@{
+    var tokens = Anti.GetAndStoreTokens(Context);
+    var path = Context.Request.Path.Value?.ToLowerInvariant() ?? "/";
+    var isHome = path == "/" || path.StartsWith("/home/index");
+    var title = ViewData["Title"] as string ?? "Плечо помощи";
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="@tokens.RequestToken" />
+    <title>@title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @RenderSection("Head", required: false)
+</head>
+<body data-auth="@(User.Identity?.IsAuthenticated == true ? "1" : "0")" data-role="@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "")">
+
+<header class="pp-header">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="d-flex align-items-center justify-content-between py-3 gap-3">
+
+            <button class="btn pp-burger" type="button" data-bs-toggle="offcanvas" data-bs-target="#ppMenu" aria-controls="ppMenu" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+
+            <a class="pp-logo text-decoration-none" asp-controller="Home" asp-action="Index">
+                <span class="pp-logo-mark">PH</span>
+                <span class="pp-logo-text d-none d-sm-inline">лого</span>
+            </a>
+
+            <nav class="d-none d-md-flex align-items-center gap-2 pp-topnav">
+                @if (isHome)
+                {
+                    <a class="pp-navlink" href="#map">Карта</a>
+                    <a class="pp-navlink" href="#list">Список</a>
+                    <a class="pp-navlink" href="#volunteers">Для волонтёров</a>
+                    <a class="pp-navlink" href="#contacts">Контакты</a>
+                }
+                else
+                {
+                    <a class="pp-navlink" asp-controller="Home" asp-action="Index">Главная</a>
+                }
+            </nav>
+
+            <div class="d-flex align-items-center gap-2">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+                            @User.Identity!.Name
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><span class="dropdown-item-text small text-muted">Роль: @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</span></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-controller="Requests" asp-action="My">Мои заявки</a></li>
+                            @if (User.IsInRole("Volunteer") || User.IsInRole("Admin"))
+                            {
+                                <li><a class="dropdown-item" asp-controller="Requests" asp-action="All">Лента заявок</a></li>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Админ‑панель</a></li>
+                            }
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="px-3">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn-sm btn-danger w-100" type="submit">Выйти</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-dark" asp-controller="Account" asp-action="Login">Вход</a>
+                }
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="offcanvas offcanvas-start pp-offcanvas" tabindex="-1" id="ppMenu" aria-labelledby="ppMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="ppMenuLabel">Меню</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action pp-menuitem" asp-controller="Home" asp-action="Index">Главная</a>
+            <a class="list-group-item list-group-item-action pp-menuitem" asp-controller="Stories" asp-action="Index">Истории</a>
+            <a class="list-group-item list-group-item-action pp-menuitem" asp-controller="Articles" asp-action="Index">Статьи</a>
+            <a class="list-group-item list-group-item-action pp-menuitem" asp-controller="About" asp-action="Index">О нас</a>
+        </div>
+
+        <div class="mt-4 small text-white-50">
+            Мониторинг волонтёрских организаций по России.
+        </div>
+    </div>
+</div>
+
+<main class="pp-main">
+    @RenderBody()
+</main>
+
+<footer class="pp-footer">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 py-4">
+            <div class="small text-white-50">
+                <a class="link-light text-decoration-none" asp-controller="Home" asp-action="Privacy">Политика конфиденциальности</a>
+                <span class="ms-2">© @DateTime.UtcNow.Year</span>
+            </div>
+
+            <button class="btn btn-sm btn-outline-light" type="button" id="ppToTop">Наверх ↑</button>
+
+            <div class="d-flex align-items-center gap-3">
+                <a class="pp-social" href="#" title="VK" aria-label="VK">
+                    <span class="pp-ic">VK</span>
+                </a>
+                <a class="pp-social" href="#" title="OK" aria-label="Одноклассники">
+                    <span class="pp-ic">OK</span>
+                </a>
+                <a class="pp-social" href="#" title="Mail" aria-label="Mail.ru">
+                    <span class="pp-ic">&#64;</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>
